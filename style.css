@@ -76,6 +76,10 @@ main {
   color: #fff;
 }
 
+.btn-remove:hover {
+  background-color: rgb(202, 37, 37);
+}
+
 .add {
   display: flex;
   justify-content: center;
@@ -85,12 +89,18 @@ main {
 .add .mdi {
   color: #292524;
   font-size: 70px;
+  transition: 0.2s;
+}
+
+.add:hover .mdi {
+  color: green;
 }
 
 .modal {
+  display: none;
   position: fixed;
-  width: 50%;
-  height: 50%;
+  width: 40%;
+  min-height: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -104,15 +114,41 @@ main {
   text-align: center;
   text-transform: uppercase;
   color: #fff;
+  margin-bottom: 50px;
 }
 
 .modal form {
   color: #fff;
-  padding: 5%;
   font-size: 2rem;
 }
 
 form label,
 form input {
   display: block;
+  width: 100%;
+}
+
+form input {
+  height: 40px;
+  font-size: 1.5rem;
+  padding: 5px 10px;
+}
+
+form input[type='submit'] {
+  height: 50px;
+  margin-top: 50px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
+form .mdi {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 40px;
+}
+
+form .mdi:hover {
+  color: red;
 }
