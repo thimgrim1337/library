@@ -2,14 +2,11 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: 'Poppins';
 }
 
 html {
   font-size: 16px;
-}
-
-body {
-  font-family: 'Poppins';
 }
 
 .grid-container {
@@ -49,15 +46,34 @@ main {
 .books {
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, 250px);
   padding: 20px;
 }
 
-.books div {
+.books > div {
   height: 350px;
   background-color: #fff;
   border: 1px solid #e5e7eb;
   z-index: 1;
+}
+
+.book {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 20px;
+}
+
+.book button {
+  justify-self: stretch;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.btn-remove {
+  background-color: red;
+  color: #fff;
 }
 
 .add {
@@ -69,4 +85,34 @@ main {
 .add .mdi {
   color: #292524;
   font-size: 70px;
+}
+
+.modal {
+  position: fixed;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5%;
+  background-color: #1f2937;
+  opacity: 0.8;
+  z-index: 999;
+}
+
+.modal h1 {
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.modal form {
+  color: #fff;
+  padding: 5%;
+  font-size: 2rem;
+}
+
+form label,
+form input {
+  display: block;
 }
