@@ -12,31 +12,31 @@ let myLibrary = [
     title: 'Song of Ice and Fire',
     author: 'George R. R. Martin',
     pages: 550,
-    read: 'yes',
+    read: false,
   },
   {
     title: 'Harry Potter',
     author: 'J.K. Rowling',
     pages: 450,
-    read: 'yes',
+    read: false,
   },
   {
     title: 'Foundation',
     author: 'R. Asimov',
     pages: 500,
-    read: 'yes',
+    read: false,
   },
   {
     title: 'The Lord of The Ring',
     author: 'J.R.R. Tolkien',
     pages: 600,
-    read: 'yes',
+    read: false,
   },
   {
     title: 'Song of Ice and Fire',
     author: 'George R. R. Martin',
     pages: 550,
-    read: 'yes',
+    read: false,
   },
 ];
 
@@ -47,9 +47,6 @@ class Book {
     this.pages = pages;
     this.read = read;
   }
-  setRead = () => {
-    this.read != this.read;
-  };
 }
 
 const createBookCard = (book) => {
@@ -59,12 +56,13 @@ const createBookCard = (book) => {
   <h2>${book.title}</h2>
   <h3>${book.author}</h3>
   <span>${book.pages} pages</span>
-  <button class="btn-read ${book.read === true ? 'green' : ''}">Read ?</button>
-  <button class="btn-remove">Remove</button>
+  <button data-index=${index} class="btn-read ${
+    book.read === true ? 'green' : ''
+  }">Read ?</button>
+  <button data-index=${index} class="btn-remove">Remove</button>
   `;
   div.className = 'book';
 
-  div.dataset.index = index;
   index++;
 
   books.appendChild(div);
@@ -107,9 +105,17 @@ const clearModal = () => {
   document.querySelector('#bookRead').checked = false;
 };
 
+const setRead = (e) => {
+  e.target.classList.toggle('green');
+
+  myLibrary[e.target.dataset.index].read =
+    !myLibrary[e.target.dataset.index].read;
+};
+
 showBooks();
 
-const readBtn = document.querySelector('.btn-read');
+const readBtn = document.querySelectorAll('.btn-read');
+readBtn.forEach((btn) => btn.addEventListener('click', setRead));
 
 plusBtn.addEventListener('click', openModal);
 
