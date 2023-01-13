@@ -46,7 +46,7 @@ main {
 .books {
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(auto-fit, 250px);
+  grid-template-columns: repeat(auto-fit, 300px);
   padding: 20px;
 }
 
@@ -59,9 +59,16 @@ main {
 
 .book {
   display: grid;
+  grid-template-rows: repeat(5, auto);
   justify-items: center;
   gap: 10px;
-  padding: 20px;
+}
+
+.book h2,
+.book h3,
+.book span {
+  align-self: center;
+  text-align: center;
 }
 
 .book button {
@@ -70,6 +77,7 @@ main {
   text-transform: uppercase;
   font-weight: bold;
   color: #fff;
+  cursor: pointer;
 }
 
 .btn-read,
@@ -107,7 +115,6 @@ main {
   transform: translate(-50%, -50%);
   padding: 5%;
   background-color: #1f2937;
-  opacity: 0.8;
   z-index: 999;
   transition: 1s;
 }
