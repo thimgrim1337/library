@@ -69,30 +69,31 @@ main {
   border: none;
   text-transform: uppercase;
   font-weight: bold;
+  color: #fff;
 }
 
+.btn-read,
 .btn-remove {
   background-color: red;
-  color: #fff;
 }
 
 .btn-remove:hover {
   background-color: rgb(202, 37, 37);
 }
 
-.add {
+.btn-plus {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.add .mdi {
+.btn-plus .mdi {
   color: #292524;
   font-size: 70px;
   transition: 0.2s;
 }
 
-.add:hover .mdi {
+.btn-plus:hover .mdi {
   color: green;
 }
 
@@ -108,6 +109,7 @@ main {
   background-color: #1f2937;
   opacity: 0.8;
   z-index: 999;
+  transition: 1s;
 }
 
 .modal h1 {
@@ -126,6 +128,11 @@ form label,
 form input {
   display: block;
   width: 100%;
+}
+
+label[for='bookRead'] {
+  margin-top: 20px;
+  text-align: center;
 }
 
 form input {
@@ -151,4 +158,8 @@ form .mdi {
 
 form .mdi:hover {
   color: red;
+}
+
+.green {
+  background-color: green;
 }

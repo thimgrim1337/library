@@ -19,15 +19,8 @@
       <main>
         <div class="dashed-line"></div>
         <div class="books">
-          <div class="add">
+          <div class="btn-plus">
             <i class="mdi mdi-plus-thick"></i>
-          </div>
-          <div class="book">
-            <h2>Title</h2>
-            <h3>Author</h3>
-            <span>Pages</span>
-            <button class="btn-read">Read ?</button>
-            <button class="btn-remove">Remove</button>
           </div>
         </div>
         <div class="modal">
@@ -35,12 +28,14 @@
           <form action="#">
             <i class="mdi mdi-close-circle-outline"></i>
             <label for="bookTitle">Title: </label>
-            <input type="text" id="bookTitle" />
+            <input required type="text" id="bookTitle" />
             <label for="bookAuthor">Author: </label>
-            <input type="text" id="bookAuthor" />
+            <input required type="text" id="bookAuthor" />
             <label for="bookPages">Pages: </label>
-            <input type="number" id="bookPages" />
-            <input type="submit" value="Add" />
+            <input required type="number" id="bookPages" />
+            <label for="bookRead">Did you read it ?</label>
+            <input required type="checkbox" name="bookRead" id="bookRead" />
+            <input class="btn-add" type="submit" value="Add" />
           </form>
         </div>
       </main>
