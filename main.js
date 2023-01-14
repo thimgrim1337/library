@@ -62,6 +62,7 @@ const createBookCard = (book) => {
   <button data-index=${index} class="btn-remove">Remove</button>
   `;
   div.className = 'book';
+  div.dataset.index = index;
 
   index++;
 
@@ -112,10 +113,21 @@ const setRead = (e) => {
     !myLibrary[e.target.dataset.index].read;
 };
 
+const removeBook = (e) => {
+  const book = document.querySelector(
+    `[data-index="${e.target.dataset.index}"]`
+  );
+  book.remove();
+  myLibrary.splice(e.target.dataset.index, 1);
+};
+
 showBooks();
 
 const readBtn = document.querySelectorAll('.btn-read');
 readBtn.forEach((btn) => btn.addEventListener('click', setRead));
+
+const removeBtn = document.querySelectorAll('.btn-remove');
+removeBtn.forEach((btn) => btn.addEventListener('click', removeBook));
 
 plusBtn.addEventListener('click', openModal);
 
