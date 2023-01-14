@@ -5,7 +5,6 @@ const addBtn = document.querySelector('.btn-add');
 const modal = document.querySelector('.modal');
 const modalClose = document.querySelector('.mdi-close-circle-outline');
 const books = document.querySelector('.books');
-let index = 0;
 
 let myLibrary = [
   {
@@ -49,27 +48,6 @@ class Book {
   }
 }
 
-const createBookCard = (book) => {
-  const books = document.querySelector('.books');
-  const div = document.createElement('div');
-  div.innerHTML += `
-  <h2>${book.title}</h2>
-  <h3>${book.author}</h3>
-  <span>${book.pages} pages</span>
-  <button data-index=${index} class="btn-read ${
-    book.read === true ? 'green' : ''
-  }">Read ?</button>
-  <button data-index=${index} class="btn-remove">Remove</button>
-  `;
-  div.className = 'book';
-  div.dataset.index = index;
-
-  index++;
-
-  books.appendChild(div);
-  closeModal();
-};
-
 const addBookToLibrary = (e) => {
   e.preventDefault();
   const title = document.querySelector('#bookTitle').value;
@@ -79,8 +57,29 @@ const addBookToLibrary = (e) => {
 
   const book = new Book(title, author, pages, read);
 
-  createBookCard(book);
   myLibrary.push(book);
+  createBookCard(book);
+};
+
+const createBookCard = (book) => {
+  const books = document.querySelector('.books');
+  const div = document.createElement('div');
+  const index = myLibrary.indexOf(book);
+  div.innerHTML += `
+  <h2>${book.title}</h2>
+  <h3>${book.author}</h3>
+  <span>${book.pages} pages</span>
+  <button data-index=${index} class="btn-read ${
+    book.read === true ? 'green' : ''
+  }">Read ?</button>
+  <button data-index=${index}
+  class="btn-remove">Remove</button>
+  `;
+  div.className = 'book';
+  div.dataset.index = index;
+
+  books.appendChild(div);
+  closeModal();
 };
 
 const showBooks = () => {
@@ -117,17 +116,28 @@ const removeBook = (e) => {
   const book = document.querySelector(
     `[data-index="${e.target.dataset.index}"]`
   );
-  book.remove();
   myLibrary.splice(e.target.dataset.index, 1);
+  book.remove();
+  updateDateIndex();
+};
+
+const updateDateIndex = () => {
+  const indexes = document.querySelectorAll('[data-index]');
+  let index = 0;
+  for (let i = 0; i < indexes.length; i++) {
+    indexes[i].dataset.index = index;
+    if ((i + 1) % 3 == 0) index++;
+  }
+  console.log(indexes);
 };
 
 showBooks();
 
-const readBtn = document.querySelectorAll('.btn-read');
-readBtn.forEach((btn) => btn.addEventListener('click', setRead));
+const readBtn = document.getElementsByClassName('btn-read');
+[...readBtn].forEach((btn) => btn.addEventListener('click', setRead));
 
-const removeBtn = document.querySelectorAll('.btn-remove');
-removeBtn.forEach((btn) => btn.addEventListener('click', removeBook));
+const removeBtn = document.getElementsByClassName('btn-remove');
+[...removeBtn].forEach((btn) => btn.addEventListener('click', removeBook));
 
 plusBtn.addEventListener('click', openModal);
 
