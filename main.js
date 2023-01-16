@@ -6,7 +6,7 @@ const modal = document.querySelector('.modal');
 const modalClose = document.querySelector('.mdi-close-circle-outline');
 const books = document.querySelector('.books');
 
-let myLibrary = [
+/* let myLibrary = [
   {
     title: 'Song of Ice and Fire',
     author: 'George R. R. Martin',
@@ -37,10 +37,10 @@ let myLibrary = [
     pages: 550,
     read: false,
   },
-];
+]; */
 
 class Book {
-  constructor(title, author, pages, read) {
+  constructor(title = 'Unknown', author = 'Unknown', pages = 0, read = false) {
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -48,7 +48,25 @@ class Book {
   }
 }
 
-const addBookToLibrary = (e) => {
+class Library {
+  constructor() {
+    this.library = [];
+  }
+  addBook = (e) => {
+    e.preventDefault();
+    const title = document.querySelector('#bookTitle').value;
+    const author = document.querySelector('#bookAuthor').value;
+    const pages = document.querySelector('#bookPages').value;
+    const read = document.querySelector('#bookRead').checked;
+
+    const book = new Book(title, author, pages, read);
+    this.library.push(book);
+    // createBookCard(book);
+  };
+}
+let myLibrary = new Library();
+
+/* const addBookToLibrary = (e) => {
   e.preventDefault();
   const title = document.querySelector('#bookTitle').value;
   const author = document.querySelector('#bookAuthor').value;
@@ -59,7 +77,7 @@ const addBookToLibrary = (e) => {
 
   myLibrary.push(book);
   createBookCard(book);
-};
+}; */
 
 const createBookCard = (book) => {
   const books = document.querySelector('.books');
@@ -118,10 +136,10 @@ const removeBook = (e) => {
   );
   myLibrary.splice(e.target.dataset.index, 1);
   book.remove();
-  updateDateIndex();
+  updateDataIndex();
 };
 
-const updateDateIndex = () => {
+const updateDataIndex = () => {
   const indexes = document.querySelectorAll('[data-index]');
   let index = 0;
   for (let i = 0; i < indexes.length; i++) {
@@ -131,7 +149,7 @@ const updateDateIndex = () => {
   console.log(indexes);
 };
 
-showBooks();
+// showBooks();
 
 const readBtn = document.getElementsByClassName('btn-read');
 [...readBtn].forEach((btn) => btn.addEventListener('click', setRead));
@@ -141,6 +159,6 @@ const removeBtn = document.getElementsByClassName('btn-remove');
 
 plusBtn.addEventListener('click', openModal);
 
-addBtn.addEventListener('click', addBookToLibrary);
+addBtn.addEventListener('click', myLibrary.addBook);
 
 modalClose.addEventListener('click', closeModal);
