@@ -1,10 +1,5 @@
 'use strict';
 
-const plusBtn = document.querySelector('.btn-plus');
-const addBtn = document.querySelector('.btn-add');
-const modalClose = document.querySelector('.mdi-close-circle-outline');
-const books = document.querySelector('.books');
-
 class Book {
   constructor(
     title = 'Unknown',
@@ -23,7 +18,23 @@ class Library {
   constructor() {
     this.library = [];
   }
-  addBook = (e) => {
+
+  addBook = (book) => {
+    this.library.push(book);
+  };
+
+  removeBook = (index) => {
+    this.library.splice(index, 1);
+  };
+
+  setRead = (index) => {
+    this.library[index].isRead = !this.library[index].isRead;
+  };
+}
+const myLibrary = new Library();
+
+class UI {
+  static addBook = (e) => {
     e.preventDefault();
     const title = document.querySelector('#bookTitle').value;
     const author = document.querySelector('#bookAuthor').value;
@@ -31,23 +42,29 @@ class Library {
     const isRead = document.querySelector('#bookRead').checked;
 
     const book = new Book(title, author, pages, isRead);
-    this.library.push(book);
-    UI.createBookCard(this.library, book);
-  };
-}
-const myLibrary = new Library();
+    myLibrary.addBook(book);
 
-class UI {
-  static createBookCard = (library, book) => {
+    UI.createBookCard(book);
+  };
+
+  static removeBook = (e) => {
+    const book = document.querySelector(
+      `[data-index="${e.target.dataset.index}"]`
+    );
+    myLibrary.removeBook(e.target.dataset.index);
+    book.remove();
+  };
+
+  static createBookCard = (book) => {
     const books = document.querySelector('.books');
     const div = document.createElement('div');
-    const index = library.indexOf(book);
+    const index = myLibrary.library.indexOf(book);
     div.innerHTML += `
     <h2>${book.title}</h2>
     <h3>${book.author}</h3>
     <span>${book.pages} pages</span>
     <button data-index=${index} class="btn-read ${
-      book.read === true ? 'green' : ''
+      book.isRead === true ? 'green' : ''
     }">Read ?</button>
     <button data-index=${index}
     class="btn-remove">Remove</button>
@@ -57,6 +74,9 @@ class UI {
 
     books.insertBefore(div, books.firstChild);
     UI.closeModal();
+
+    UI.removeBtn[index].addEventListener('click', UI.removeBook);
+    UI.readBtn[index].addEventListener('click', UI.setRead);
   };
 
   static openModal = () => {
@@ -74,50 +94,19 @@ class UI {
     document.querySelector('#bookPages').value = '';
     document.querySelector('#bookRead').checked = false;
   };
+
+  static setRead = (e) => {
+    e.target.classList.toggle('green');
+    myLibrary.setRead(e.target.dataset.index);
+  };
 }
 UI.modal = document.querySelector('.modal');
+UI.plusBtn = document.querySelector('.btn-plus');
+UI.addBtn = document.querySelector('.btn-add');
+UI.modalClose = document.querySelector('.mdi-close-circle-outline');
+UI.readBtn = document.getElementsByClassName('btn-read');
+UI.removeBtn = document.getElementsByClassName('btn-remove');
 
-/* const showBooks = () => {
-  if (myLibrary.length === 0) return;
-  for (const book of myLibrary) {
-    createBookCard(book);
-  }
-}; */
-
-const setRead = (e) => {
-  e.target.classList.toggle('green');
-
-  myLibrary[e.target.dataset.index].read =
-    !myLibrary[e.target.dataset.index].read;
-};
-
-const removeBook = (e) => {
-  const book = document.querySelector(
-    `[data-index="${e.target.dataset.index}"]`
-  );
-  myLibrary.splice(e.target.dataset.index, 1);
-  book.remove();
-  updateDataIndex();
-};
-
-const updateDataIndex = () => {
-  const indexes = document.querySelectorAll('[data-index]');
-  let index = 0;
-  for (let i = 0; i < indexes.length; i++) {
-    indexes[i].dataset.index = index;
-    if ((i + 1) % 3 == 0) index++;
-  }
-  console.log(indexes);
-};
-
-const readBtn = document.getElementsByClassName('btn-read');
-[...readBtn].forEach((btn) => btn.addEventListener('click', setRead));
-
-const removeBtn = document.getElementsByClassName('btn-remove');
-[...removeBtn].forEach((btn) => btn.addEventListener('click', removeBook));
-
-plusBtn.addEventListener('click', UI.openModal);
-
-addBtn.addEventListener('click', myLibrary.addBook);
-
-modalClose.addEventListener('click', UI.closeModal);
+UI.plusBtn.addEventListener('click', UI.openModal);
+UI.addBtn.addEventListener('click', UI.addBook);
+UI.modalClose.addEventListener('click', UI.closeModal);
