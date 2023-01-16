@@ -40,11 +40,16 @@ const books = document.querySelector('.books');
 ]; */
 
 class Book {
-  constructor(title = 'Unknown', author = 'Unknown', pages = 0, read = false) {
+  constructor(
+    title = 'Unknown',
+    author = 'Unknown',
+    pages = 0,
+    isRead = false
+  ) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read;
+    this.isRead = isRead;
   }
 }
 
@@ -57,11 +62,11 @@ class Library {
     const title = document.querySelector('#bookTitle').value;
     const author = document.querySelector('#bookAuthor').value;
     const pages = document.querySelector('#bookPages').value;
-    const read = document.querySelector('#bookRead').checked;
+    const isRead = document.querySelector('#bookRead').checked;
 
-    const book = new Book(title, author, pages, read);
+    const book = new Book(title, author, pages, isRead);
     this.library.push(book);
-    // createBookCard(book);
+    UI.createBookCard(this.library, book);
   };
 }
 let myLibrary = new Library();
@@ -79,7 +84,32 @@ let myLibrary = new Library();
   createBookCard(book);
 }; */
 
-const createBookCard = (book) => {
+class UI {
+  static createBookCard = (library, book) => {
+    const books = document.querySelector('.books');
+    const div = document.createElement('div');
+    const index = library.indexOf(book);
+    div.innerHTML += `
+    <h2>${book.title}</h2>
+    <h3>${book.author}</h3>
+    <span>${book.pages} pages</span>
+    <button data-index=${index} class="btn-read ${
+      book.read === true ? 'green' : ''
+    }">Read ?</button>
+    <button data-index=${index}
+    class="btn-remove">Remove</button>
+    `;
+    div.className = 'book';
+    div.dataset.index = index;
+
+    books.appendChild(div);
+    closeModal();
+  };
+}
+
+const ui = new UI();
+
+/* const createBookCard = (book) => {
   const books = document.querySelector('.books');
   const div = document.createElement('div');
   const index = myLibrary.indexOf(book);
@@ -98,7 +128,7 @@ const createBookCard = (book) => {
 
   books.appendChild(div);
   closeModal();
-};
+}; */
 
 const showBooks = () => {
   if (myLibrary.length === 0) return;
