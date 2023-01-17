@@ -32,38 +32,6 @@ class Library {
   };
 }
 const myLibrary = new Library();
-myLibrary.library = [
-  {
-    title: 'Song of Ice and Fire',
-    author: 'George R. R. Martin',
-    pages: 550,
-    read: 'yes',
-  },
-  {
-    title: 'Harry Potter',
-    author: 'J.K. Rowling',
-    pages: 450,
-    isRead: 'yes',
-  },
-  {
-    title: 'Foundation',
-    author: 'R. Asimov',
-    pages: 500,
-    isRead: 'yes',
-  },
-  {
-    title: 'The Lord of The Ring',
-    author: 'J.R.R. Tolkien',
-    pages: 600,
-    isRead: 'yes',
-  },
-  {
-    title: 'Song of Ice and Fire',
-    author: 'George R. R. Martin',
-    pages: 550,
-    isRead: 'yes',
-  },
-];
 
 class UI {
   static createBook = (e) => {
@@ -156,5 +124,3 @@ UI.removeBtn = document.getElementsByClassName('btn-remove');
 UI.plusBtn.addEventListener('click', UI.openModal);
 UI.addBtn.addEventListener('click', UI.createBook);
 UI.modalClose.addEventListener('click', UI.closeModal);
-
-myLibrary.library.forEach((book) => UI.createBookCard(book));
