@@ -34,17 +34,18 @@ class Library {
 const myLibrary = new Library();
 
 class UI {
-  static addBook = (e) => {
+  static createBook = (e) => {
     e.preventDefault();
     const title = document.querySelector('#bookTitle').value;
     const author = document.querySelector('#bookAuthor').value;
     const pages = document.querySelector('#bookPages').value;
     const isRead = document.querySelector('#bookRead').checked;
 
-    const book = new Book(title, author, pages, isRead);
-    myLibrary.addBook(book);
-
-    UI.createBookCard(book);
+    if (!myLibrary.library.some((book) => book.title === title)) {
+      const book = new Book(title, author, pages, isRead);
+      myLibrary.addBook(book);
+      UI.createBookCard(book);
+    } else alert('Book is already in library');
   };
 
   static removeBook = (e) => {
@@ -72,11 +73,19 @@ class UI {
     div.className = 'book';
     div.dataset.index = index;
 
-    books.insertBefore(div, books.firstChild);
+    if (myLibrary.library.length === 1)
+      books.insertBefore(div, books.firstChild);
+    else books.insertBefore(div, document.querySelector('.btn-plus'));
+
     UI.closeModal();
 
     UI.removeBtn[index].addEventListener('click', UI.removeBook);
     UI.readBtn[index].addEventListener('click', UI.setRead);
+  };
+
+  static setRead = (e) => {
+    e.target.classList.toggle('green');
+    myLibrary.setRead(e.target.dataset.index);
   };
 
   static openModal = () => {
@@ -94,11 +103,6 @@ class UI {
     document.querySelector('#bookPages').value = '';
     document.querySelector('#bookRead').checked = false;
   };
-
-  static setRead = (e) => {
-    e.target.classList.toggle('green');
-    myLibrary.setRead(e.target.dataset.index);
-  };
 }
 UI.modal = document.querySelector('.modal');
 UI.plusBtn = document.querySelector('.btn-plus');
@@ -108,5 +112,5 @@ UI.readBtn = document.getElementsByClassName('btn-read');
 UI.removeBtn = document.getElementsByClassName('btn-remove');
 
 UI.plusBtn.addEventListener('click', UI.openModal);
-UI.addBtn.addEventListener('click', UI.addBook);
+UI.addBtn.addEventListener('click', UI.createBook);
 UI.modalClose.addEventListener('click', UI.closeModal);
