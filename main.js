@@ -44,7 +44,7 @@ class UI {
     if (!myLibrary.library.some((book) => book.title === title)) {
       const book = new Book(title, author, pages, isRead);
       myLibrary.addBook(book);
-      UI.createBookCard(book);
+      this.createBookCard(book);
     } else alert('Book is already in library');
   };
 
@@ -54,6 +54,7 @@ class UI {
     );
     myLibrary.removeBook(e.target.dataset.index);
     book.remove();
+    this.updateDataIndex();
   };
 
   static createBookCard = (book) => {
@@ -77,10 +78,10 @@ class UI {
       books.insertBefore(div, books.firstChild);
     else books.insertBefore(div, document.querySelector('.btn-plus'));
 
-    UI.closeModal();
+    this.closeModal();
 
-    UI.removeBtn[index].addEventListener('click', UI.removeBook);
-    UI.readBtn[index].addEventListener('click', UI.setRead);
+    this.removeBtn[index].addEventListener('click', UI.removeBook);
+    this.readBtn[index].addEventListener('click', UI.setRead);
   };
 
   static setRead = (e) => {
@@ -94,7 +95,7 @@ class UI {
 
   static closeModal = () => {
     this.modal.style.display = 'none';
-    UI.clearModal();
+    this.clearModal();
   };
 
   static clearModal = () => {
@@ -102,6 +103,15 @@ class UI {
     document.querySelector('#bookAuthor').value = '';
     document.querySelector('#bookPages').value = '';
     document.querySelector('#bookRead').checked = false;
+  };
+
+  static updateDataIndex = () => {
+    const indexes = document.querySelectorAll('[data-index]');
+    let index = 0;
+    for (let i = 0; i < indexes.length; i++) {
+      indexes[i].dataset.index = index;
+      if ((i + 1) % 3 === 0) index++;
+    }
   };
 }
 UI.modal = document.querySelector('.modal');
