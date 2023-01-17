@@ -32,6 +32,38 @@ class Library {
   };
 }
 const myLibrary = new Library();
+myLibrary.library = [
+  {
+    title: 'Song of Ice and Fire',
+    author: 'George R. R. Martin',
+    pages: 550,
+    read: 'yes',
+  },
+  {
+    title: 'Harry Potter',
+    author: 'J.K. Rowling',
+    pages: 450,
+    isRead: 'yes',
+  },
+  {
+    title: 'Foundation',
+    author: 'R. Asimov',
+    pages: 500,
+    isRead: 'yes',
+  },
+  {
+    title: 'The Lord of The Ring',
+    author: 'J.R.R. Tolkien',
+    pages: 600,
+    isRead: 'yes',
+  },
+  {
+    title: 'Song of Ice and Fire',
+    author: 'George R. R. Martin',
+    pages: 550,
+    isRead: 'yes',
+  },
+];
 
 class UI {
   static createBook = (e) => {
@@ -44,7 +76,7 @@ class UI {
     if (!myLibrary.library.some((book) => book.title === title)) {
       const book = new Book(title, author, pages, isRead);
       myLibrary.addBook(book);
-      UI.createBookCard(book);
+      this.createBookCard(book);
     } else alert('Book is already in library');
   };
 
@@ -54,6 +86,7 @@ class UI {
     );
     myLibrary.removeBook(e.target.dataset.index);
     book.remove();
+    this.updateDataIndex();
   };
 
   static createBookCard = (book) => {
@@ -77,10 +110,10 @@ class UI {
       books.insertBefore(div, books.firstChild);
     else books.insertBefore(div, document.querySelector('.btn-plus'));
 
-    UI.closeModal();
+    this.closeModal();
 
-    UI.removeBtn[index].addEventListener('click', UI.removeBook);
-    UI.readBtn[index].addEventListener('click', UI.setRead);
+    this.removeBtn[index].addEventListener('click', UI.removeBook);
+    this.readBtn[index].addEventListener('click', UI.setRead);
   };
 
   static setRead = (e) => {
@@ -94,7 +127,7 @@ class UI {
 
   static closeModal = () => {
     this.modal.style.display = 'none';
-    UI.clearModal();
+    this.clearModal();
   };
 
   static clearModal = () => {
@@ -102,6 +135,15 @@ class UI {
     document.querySelector('#bookAuthor').value = '';
     document.querySelector('#bookPages').value = '';
     document.querySelector('#bookRead').checked = false;
+  };
+
+  static updateDataIndex = () => {
+    const indexes = document.querySelectorAll('[data-index]');
+    let index = 0;
+    for (let i = 0; i < indexes.length; i++) {
+      indexes[i].dataset.index = index;
+      if ((i + 1) % 3 === 0) index++;
+    }
   };
 }
 UI.modal = document.querySelector('.modal');
@@ -114,3 +156,5 @@ UI.removeBtn = document.getElementsByClassName('btn-remove');
 UI.plusBtn.addEventListener('click', UI.openModal);
 UI.addBtn.addEventListener('click', UI.createBook);
 UI.modalClose.addEventListener('click', UI.closeModal);
+
+myLibrary.library.forEach((book) => UI.createBookCard(book));
